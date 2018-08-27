@@ -34,7 +34,7 @@ public class WeightAdapter extends ArrayAdapter<Weight> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View _weightItem = LayoutInflater.from(context).inflate(R.layout.fragment_weight_form,parent,false);
+        View _weightItem = LayoutInflater.from(context).inflate( R.layout.fragment_weight_item ,parent,false);
 
         TextView _date = (TextView) _weightItem.findViewById(R.id.weight_item_date);
         TextView _weight = (TextView) _weightItem.findViewById(R.id.weight_item_weight);

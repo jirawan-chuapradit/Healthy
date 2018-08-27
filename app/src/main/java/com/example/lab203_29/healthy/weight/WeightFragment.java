@@ -46,7 +46,8 @@ public class WeightFragment extends Fragment {
         ListView _weightList = (ListView) getView().findViewById(R.id.weight_list);
         WeightAdapter _weightAdapter = new WeightAdapter(
                 getActivity(),
-                R.layout.fragment_weight_form,weight
+                R.layout.fragment_weight_item,
+                weight
         );
 
         initAddWeightBtn();
