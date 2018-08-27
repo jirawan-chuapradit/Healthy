@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:text="@string/app_name3"
+        android:textColor="#000000"
+        android:textSize="26dp"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:id="@+id/textView" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <LinearLayout
+            android:padding="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+
+            <Button
+                android:text="BACK  "
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/back_btn"
+                />
+
+            <EditText
+                android:drawableLeft="@drawable/ic_height"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="@string/height"
+                android:ems="10"
+                android:id="@+id/hight" />
+
+
+
+            <EditText
+                android:drawableLeft="@drawable/ic_weight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="@string/weight"
+                android:ems="10"
+                android:id="@+id/weight" />
+
+            <Button
+                android:layout_marginTop="10dp"
+                android:text="@string/btn_calculate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cal_btn"
+                android:hint="@string/btn_calculate"
+                />
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+        </LinearLayout>
