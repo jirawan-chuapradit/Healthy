@@ -10,10 +10,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.lab203_29.healthy.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Hello World!" />-->
     
     <FrameLayout
         android:id="@+id/main_view"

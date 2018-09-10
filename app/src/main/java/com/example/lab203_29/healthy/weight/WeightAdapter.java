@@ -19,6 +19,7 @@ import java.util.List;
 public class WeightAdapter extends ArrayAdapter<Weight> {
 
 
+
     List<Weight> weights = new ArrayList<Weight>();
     Context context;
 
@@ -41,8 +42,10 @@ public class WeightAdapter extends ArrayAdapter<Weight> {
 
         Weight _row = weights.get(position);
         _date.setText(_row.getDate());
-        _weight.setText(_row.getWeight());
+        _weight.setText(Integer.toString(_row.getWeight()));
 
         return _weightItem;
     }
+
+
 }
