@@ -33,7 +33,7 @@ public class LoginFragment extends Fragment {
 
         initRegisterBtn();
 
-        Button _loginBtn = (Button) getView().findViewById(R.id.login_login_btn);
+        TextView _loginBtn = (TextView) getView().findViewById(R.id.login_login_btn);
         _loginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
