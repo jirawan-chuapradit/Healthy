@@ -43,7 +43,7 @@ public class WeightAdapter extends ArrayAdapter<Weight> {
         Weight _row = weights.get(position);
         _date.setText(_row.getDate());
         _weight.setText(Integer.toString(_row.getWeight()));
-//        _status.setText(_row.getStatus());
+
 
         if (position > 0) {
             Weight _prevRow = weights.get(position - 1);
@@ -52,7 +52,7 @@ public class WeightAdapter extends ArrayAdapter<Weight> {
             } else if (_row.weight > _prevRow.weight) {
                 _status.setText("UP");
             }else{
-                _status.setText("");
+                _status.setText(" ");
             }
         }else {
             _status.setText(" ");

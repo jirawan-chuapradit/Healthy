@@ -114,11 +114,21 @@ public class RegisterFragment extends Fragment {
                         .beginTransaction()
                         .replace(R.id.main_view,new LoginFragment())
                         .commit();
+
+                // user sign out
+                FirebaseAuth.getInstance().signOut();
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_view, new LoginFragment())
+                        .addToBackStack(null)
+                        .commit();
+                Log.d("USER", "YOU HAS BEEN SIGN OUT");
                 Log.d("USER", "GOTO LOGIN");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                Log.d("SYSTEM", "ERRROR =" + e.getMessage());
                 Toast.makeText(getActivity(),"ERROR = " + e.getMessage()
                         ,Toast.LENGTH_SHORT)
                         .show();

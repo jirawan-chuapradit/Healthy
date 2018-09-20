@@ -104,7 +104,7 @@ public class WeightFormFragment extends Fragment {
                      }).addOnFailureListener(new OnFailureListener() {
                          @Override
                          public void onFailure(@NonNull Exception e) {
-                             Log.d("USER", "FAIL!!!");
+                             Log.d("SYSTEM", "ERRROR =" + e.getMessage());
                              Toast.makeText(getContext(),"ERROR = "+e.getMessage(),Toast.LENGTH_SHORT).show();
                          }
                      });
