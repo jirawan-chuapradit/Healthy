@@ -1,6 +1,7 @@
 package com.example.lab203_29.healthy;
 
 //import android.app.Fragment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 /**
  * Created by LAB203_29 on 20/8/2561.
@@ -25,11 +32,18 @@ public class LoginFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_login,container, false);
     }
 
+    //CHECK IS ALREADY LOGIN
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
+        if(FirebaseAuth.getInstance().getCurrentUser()!= null){
+            Log.d("USER", "GOTO Menu");
+            getActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.main_view,new MenuFragment())
+                    .commit();
+            return;
+        }
 
         initRegisterBtn();
 
@@ -37,20 +51,20 @@ public class LoginFragment extends Fragment {
         _loginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                // should private method Id  by jj
+
+                //GET INPUT FROM FRAGMENT LOGIN
                 EditText _userId = (EditText) getView().findViewById(R.id.login_user_id);
                 EditText _password = (EditText)getView().findViewById(R.id.login_password);
                 String _userIdStr = _userId.getText().toString();
                 String _passwordStr = _password.getText().toString();
 
-                //compare empty?
                 if(_userIdStr.isEmpty()||_passwordStr.isEmpty()){
                     Toast.makeText(
                             getActivity(),
-                            "empy naja",
+                            "USERNAME OR PASSWORD ARE EMPTY",
                             Toast.LENGTH_SHORT
                     ).show();
-                    Log.d("USER", "USER OR PASSWORD IS EMPTY");
+                    Log.d("USER", "USER OR PASSWORD ARE EMPTY");
                 }else if (_userIdStr.equals("admin") && _passwordStr.equals("admin")){
                     Log.d("USER", "GOTO Menu");
                     getActivity().getSupportFragmentManager()
@@ -58,13 +72,31 @@ public class LoginFragment extends Fragment {
                             .replace(R.id.main_view,new MenuFragment())
                             .commit();
 
-                }else {
-                    Log.d("USER", "INVALID USERNAME OR PASSWORD");
-                    Toast.makeText(
-                            getActivity(),
-                            "INVALID USERNAME OR PASSWORD",
-                            Toast.LENGTH_SHORT
-                    ).show();
+                }
+                else {
+                    //FIREBASE AUTH USE EMAIL/PASSWORD SIGN IN
+                    FirebaseAuth.getInstance().signInWithEmailAndPassword(_userIdStr,_passwordStr).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                        @Override
+                        public void onSuccess(AuthResult authResult) {
+                            //USER CONFIRM EMAIL
+                            if(authResult.getUser().isEmailVerified()){
+                                getActivity().getSupportFragmentManager()
+                                        .beginTransaction()
+                                        .replace(R.id.main_view,new MenuFragment())
+                                        .commit();
+                                Log.d("USER", "GOTO Menu");
+                            }else{
+                                Log.d("USER", "EMAIL IS NOT VERIFIED");
+                                Toast.makeText(getContext(),"EMAIL IS NOT VERIFIED",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("USER", "ERROR!!");
+                            Toast.makeText(getContext(),"ERROR = "+e.getMessage(),Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }}
                 });
             }

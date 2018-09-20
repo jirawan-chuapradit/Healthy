@@ -52,40 +52,37 @@ public class RegisterFragment extends Fragment {
             @Override
             public void onClick(View v){
 
-                // should private method Id  by jj
+                // GET INPUT FROM FRAGMENT_REGISTER
                 EditText _email = (EditText) getView().findViewById(R.id.eMail);
                 EditText _rePassword = (EditText)getView().findViewById(R.id.login_repassword);
                 EditText _password = (EditText)getView().findViewById(R.id.login_password);
-
+                // CONVESE INPUT TO STRING
                 String _passwordStr = _password.getText().toString();
                 String _rePasswordStr = _rePassword.getText().toString();
                 String _eMailStr = _email.getText().toString();
 
-
-                //compare empty?
                 if(_eMailStr.isEmpty()||_passwordStr.isEmpty() || _rePasswordStr.isEmpty()){
                     Toast.makeText(
                             getActivity(),
-                            "empy naja",
+                            "user name or password are empty",
                             Toast.LENGTH_SHORT
                     ).show();
-                    Log.d("USER", "USER OR PASSWORD OR name or age IS EMPTY");
+                    Log.d("USER", "USER OR PASSWORD OR name ARE EMPTY");
                 }else if(!_passwordStr.equals(_rePasswordStr)){
                     Toast.makeText(
                             getActivity(),
-                            "Password not equals Re-Password",
+                            "Password is not equals Re-Password",
                             Toast.LENGTH_SHORT
                     ).show();
-                    Log.d("USER","Password not equals Re-Password" );
+                    Log.d("USER","PASSWORD IS NOT EQUALS RE-PASSWORD" );
                 }else if(_passwordStr.length() < 6){
                     Toast.makeText(
                             getActivity(),
                             "Password should more than 5",
                             Toast.LENGTH_SHORT
                     ).show();
-                    Log.d("USER","Password should more than 5" );
+                    Log.d("USER","PASSWORD LESS THAN 6" );
                 } else{
-
                     fbAuth.createUserWithEmailAndPassword(_eMailStr,_passwordStr).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
                         public void onSuccess(AuthResult authResult) {
@@ -99,7 +96,6 @@ public class RegisterFragment extends Fragment {
                                     .show();
                         }
                     });
-
                 }
             }
         });
@@ -110,17 +106,18 @@ public class RegisterFragment extends Fragment {
         _user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.main_view,new LoginFragment())
                         .commit();
-                Log.d("USER", "GOTO Login");
+                Log.d("USER", "GOTO LOGIN");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("USER","Fail Register");
+                Toast.makeText(getActivity(),"ERROR = " + e.getMessage()
+                        ,Toast.LENGTH_SHORT)
+                        .show();
             }
         });
     }

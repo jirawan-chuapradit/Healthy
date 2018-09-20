@@ -6,7 +6,7 @@ package com.example.lab203_29.healthy.weight;
 
 public class Weight {
     private String date;
-    private int weight;
+    int weight;
     private String status;
 
     public  Weight(){}

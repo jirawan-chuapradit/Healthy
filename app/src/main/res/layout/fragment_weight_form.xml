@@ -5,12 +5,12 @@
 
 
     <TextView
-        android:text="@string/app_name3"
+        android:text="WEIGHT FORM"
         android:textColor="#000000"
         android:textSize="26dp"
         android:background="@color/colorPrimaryDark"
         android:layout_width="match_parent"
-        android:layout_height="53dp"
+        android:layout_height="wrap_content"
         android:id="@+id/textView" />
 
     <ScrollView
@@ -38,7 +38,7 @@
                 android:drawableLeft="@drawable/ic_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="date"
+                android:inputType="text"
                 android:hint="วันที่ชั่ง"
                 android:ems="10"
                 android:id="@+id/dateWeight" />

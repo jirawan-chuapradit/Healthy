@@ -39,11 +39,24 @@ public class WeightAdapter extends ArrayAdapter<Weight> {
 
         TextView _date = (TextView) _weightItem.findViewById(R.id.weight_item_date);
         TextView _weight = (TextView) _weightItem.findViewById(R.id.weight_item_weight);
-
+        TextView _status = (TextView) _weightItem.findViewById(R.id.weight_item_staus);
         Weight _row = weights.get(position);
         _date.setText(_row.getDate());
         _weight.setText(Integer.toString(_row.getWeight()));
+//        _status.setText(_row.getStatus());
 
+        if (position > 0) {
+            Weight _prevRow = weights.get(position - 1);
+            if (_prevRow.weight > _row.weight) {
+                _status.setText("DOWN");
+            } else if (_row.weight > _prevRow.weight) {
+                _status.setText("UP");
+            }else{
+                _status.setText("");
+            }
+        }else {
+            _status.setText(" ");
+        }
         return _weightItem;
     }
 

@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.lab203_29.healthy.MenuFragment;
 import com.example.lab203_29.healthy.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,12 +25,10 @@ public class WeightFormFragment extends Fragment {
     FirebaseAuth auth;
 
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_weight_form,container,false);
-
     }
 
     @Override
@@ -40,9 +37,9 @@ public class WeightFormFragment extends Fragment {
 
         auth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
+
         initSaveBtn();
         initBackBtn();
-
     }
 
     private void initBackBtn() {
@@ -54,6 +51,7 @@ public class WeightFormFragment extends Fragment {
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.main_view,new WeightFragment())
+                        .addToBackStack(null)
                         .commit();
             }
         }));
@@ -64,23 +62,24 @@ public class WeightFormFragment extends Fragment {
          _saveBtn.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
+                 //GET INPUT FROM FRAGMENT WEIGHTFORMFRAGEMNT
                  EditText dateWeight = (EditText) getView().findViewById(R.id.dateWeight);
                  EditText weight = (EditText) getView().findViewById(R.id.weightForm);
 
+                 //CONVERSE TO STRING
                  String dateWeightStr = dateWeight.getText().toString();
                  String weightStr = weight.getText().toString();
 
                  if(dateWeightStr.isEmpty()||weightStr.isEmpty()){
                      Toast.makeText(
                              getActivity(),
-                             "empy naja",
+                             "Date or Weight are empty",
                              Toast.LENGTH_SHORT
                      ).show();
-                     Log.d("USER", "Weight OR Date IS EMPTY");
+                     Log.d("USER", "DATE OR WEIGHT ARE EMPTY");
                  }else{
                      String _user = auth.getCurrentUser().getUid();
-
-                     Weight data = new Weight(dateWeightStr,Integer.parseInt(weightStr),"up");
+                     Weight data = new Weight(dateWeightStr,Integer.parseInt(weightStr)," ");
 
                      firestore.collection("myFitness")
                              .document(_user)
@@ -91,9 +90,10 @@ public class WeightFormFragment extends Fragment {
                          public void onSuccess(Void aVoid) {
                              Toast.makeText(
                                      getActivity(),
-                                     "Success!!!",
+                                     "It has been saved!!!",
                                      Toast.LENGTH_SHORT
                              ).show();
+                             Log.d("USER", "IT HAS BEEN SAVED");
 
                              getActivity().getSupportFragmentManager()
                                      .beginTransaction()
@@ -104,17 +104,11 @@ public class WeightFormFragment extends Fragment {
                      }).addOnFailureListener(new OnFailureListener() {
                          @Override
                          public void onFailure(@NonNull Exception e) {
-                             Log.d("USER", "Fail Save");
+                             Log.d("USER", "FAIL!!!");
+                             Toast.makeText(getContext(),"ERROR = "+e.getMessage(),Toast.LENGTH_SHORT).show();
                          }
                      });
-
-
                  }
-
-
-
-
-
 
              }
          });

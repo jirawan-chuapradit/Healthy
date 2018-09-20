@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.lab203_29.healthy.weight.WeightFragment;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,7 @@ public class MenuFragment extends Fragment {
         _menu.add("BMI");
         _menu.add("Weight");
         _menu.add("Setup");
+        _menu.add("Sign Out");
 
         ArrayAdapter<String> _menuAdoapter = new ArrayAdapter<>(
                 getActivity(),
@@ -44,22 +46,30 @@ public class MenuFragment extends Fragment {
         _menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterVeiw, View view, int i,long l) {
+                Log.d("Menu", "Click on menu ="+_menu.get(i));
                 if (_menu.get(i).contains("Weight")){
-                    Log.d("Menu", "Click on menu ="+_menu.get(i));
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.main_view, new WeightFragment())
                             .addToBackStack(null)
                             .commit();
+                    Log.d("Menu", "GOTO WEIGHT");
                 }else if(_menu.get(i).contains("BMI")){
-                    Log.d("Menu", "Click on menu ="+_menu.get(i));
-                    getActivity().getSupportFragmentManager()
+                   getActivity().getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.main_view, new BMIFragment())
                             .addToBackStack(null)
                             .commit();
+                    Log.d("Menu", "GOTO BMI");
+                }else if(_menu.get(i).contains("Sign Out")){
+                    FirebaseAuth.getInstance().signOut();
+                   getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_view, new LoginFragment())
+                            .addToBackStack(null)
+                            .commit();
+                    Log.d("Menu", "GOTO LOG IN");
                 }
-
             }
         });
     }
