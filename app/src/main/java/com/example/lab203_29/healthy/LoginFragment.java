@@ -37,6 +37,7 @@ public class LoginFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if(FirebaseAuth.getInstance().getCurrentUser()!= null){
+            Log.d("USER", "USER ALREADY LOG IN");
             Log.d("USER", "GOTO Menu");
             getActivity().getSupportFragmentManager()
                     .beginTransaction()
@@ -61,10 +62,10 @@ public class LoginFragment extends Fragment {
                 if(_userIdStr.isEmpty()||_passwordStr.isEmpty()){
                     Toast.makeText(
                             getActivity(),
-                            "USERNAME OR PASSWORD ARE EMPTY",
+                            "USERNAME OR PASSWORD IS EMPTY",
                             Toast.LENGTH_SHORT
                     ).show();
-                    Log.d("USER", "USER OR PASSWORD ARE EMPTY");
+                    Log.d("USER", "USER OR PASSWORD IS EMPTY");
                 }else if (_userIdStr.equals("admin") && _passwordStr.equals("admin")){
                     Log.d("USER", "GOTO Menu");
                     getActivity().getSupportFragmentManager()
@@ -72,8 +73,7 @@ public class LoginFragment extends Fragment {
                             .replace(R.id.main_view,new MenuFragment())
                             .commit();
 
-                }
-                else {
+                } else {
                     //FIREBASE AUTH USE EMAIL/PASSWORD SIGN IN
                     FirebaseAuth.getInstance().signInWithEmailAndPassword(_userIdStr,_passwordStr).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                         @Override
@@ -93,7 +93,7 @@ public class LoginFragment extends Fragment {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d("USER", "ERROR!!");
+                            Log.d("USER", "INVALID USER OR PASSWORD");
                             Toast.makeText(getContext(),"ERROR = "+e.getMessage(),Toast.LENGTH_SHORT).show();
                         }
                     });

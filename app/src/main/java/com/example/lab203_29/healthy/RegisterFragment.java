@@ -64,10 +64,10 @@ public class RegisterFragment extends Fragment {
                 if(_eMailStr.isEmpty()||_passwordStr.isEmpty() || _rePasswordStr.isEmpty()){
                     Toast.makeText(
                             getActivity(),
-                            "user name or password are empty",
+                            "FIELD NAME IS EMPTY",
                             Toast.LENGTH_SHORT
                     ).show();
-                    Log.d("USER", "USER OR PASSWORD OR name ARE EMPTY");
+                    Log.d("USER", "FIELD NAME IS EMPTY");
                 }else if(!_passwordStr.equals(_rePasswordStr)){
                     Toast.makeText(
                             getActivity(),
@@ -91,6 +91,7 @@ public class RegisterFragment extends Fragment {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            Log.d("USER","USER ALREADY EXIST" );
                             Toast.makeText(getActivity(),"ERROR = " + e.getMessage()
                                     ,Toast.LENGTH_SHORT)
                                     .show();
@@ -106,6 +107,9 @@ public class RegisterFragment extends Fragment {
         _user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+                Toast.makeText(getActivity(),"YOU HAS BEEN REGISTER PLEASE CONFIRM YOUR E-MAIL"
+                        ,Toast.LENGTH_SHORT)
+                        .show();
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.main_view,new LoginFragment())

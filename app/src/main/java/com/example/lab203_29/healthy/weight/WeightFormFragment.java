@@ -90,10 +90,10 @@ public class WeightFormFragment extends Fragment {
                          public void onSuccess(Void aVoid) {
                              Toast.makeText(
                                      getActivity(),
-                                     "It has been saved!!!",
+                                     "your value has been saved!!!",
                                      Toast.LENGTH_SHORT
                              ).show();
-                             Log.d("USER", "IT HAS BEEN SAVED");
+                             Log.d("USER", "VALUE HAS BEEN SAVED");
 
                              getActivity().getSupportFragmentManager()
                                      .beginTransaction()

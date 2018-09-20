@@ -54,24 +54,29 @@ public class BMIFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // should private method Id  by jj
-                EditText _hight = (EditText) getView().findViewById(R.id.hight);
+                EditText _height = (EditText) getView().findViewById(R.id.hight);
                 EditText _weight = (EditText) getView().findViewById(R.id.weight);
 
-                String _hightStr = _hight.getText().toString();
+                String _heightStr = _height.getText().toString();
                 String _weightStr = _weight.getText().toString();
+
+                float _heightFloat = Float.parseFloat(_heightStr);
+                float _weightFloat = Float.parseFloat(_weightStr);
 
 
                 //compare empty?
-                if (_weightStr.isEmpty() || _hightStr.isEmpty()) {
+                if (_weightStr.isEmpty() || _heightStr.isEmpty()) {
                     Toast.makeText(
                             getActivity(),
-                            "empy naja",
+                            "FIELD NAME IS EMPTY",
                             Toast.LENGTH_SHORT
                     ).show();
-                    Log.d("USER", "HEIGHT OR WEIGHT IS EMPTY");
+                    Log.d("USER", "FIELD NAME IS EMPTY");
                 } else {
-                    TextView _result = (TextView) getView().findViewById(R.id.cal_btn);
-                    _result.setText("23");
+                    Log.d("USER", "BMI IS VALUE");
+                    TextView _resultVeiw = (TextView) getView().findViewById(R.id.result_view);
+                    float _total = _weightFloat/ ((_heightFloat/100)*(_heightFloat/100));
+                    _resultVeiw.setText(_total + "");
 
 
                 }

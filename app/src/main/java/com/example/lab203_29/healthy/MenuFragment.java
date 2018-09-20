@@ -68,7 +68,8 @@ public class MenuFragment extends Fragment {
                             .replace(R.id.main_view, new LoginFragment())
                             .addToBackStack(null)
                             .commit();
-                    Log.d("Menu", "GOTO LOG IN");
+                    Log.d("USER", "YOU HAS BEEN SIGN OUT");
+                    Log.d("USER", "GOTO LOG IN");
                 }
             }
         });
