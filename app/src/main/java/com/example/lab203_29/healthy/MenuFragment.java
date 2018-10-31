@@ -2,7 +2,6 @@ package com.example.lab203_29.healthy;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.StringDef;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.lab203_29.healthy.sleep.SleepFragment;
 import com.example.lab203_29.healthy.weight.WeightFragment;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -32,6 +32,7 @@ public class MenuFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         _menu.add("BMI");
         _menu.add("Weight");
+        _menu.add("Sleep");
         _menu.add("Setup");
         _menu.add("Sign Out");
 
@@ -61,7 +62,15 @@ public class MenuFragment extends Fragment {
                             .addToBackStack(null)
                             .commit();
                     Log.d("Menu", "GOTO BMI");
-                }else if(_menu.get(i).contains("Sign Out")){
+                }
+                else if(_menu.get(i).contains("Sleep")){
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_view, new SleepFragment())
+                            .addToBackStack(null)
+                            .commit();
+                }
+                else if(_menu.get(i).contains("Sign Out")){
                     FirebaseAuth.getInstance().signOut();
                    getActivity().getSupportFragmentManager()
                             .beginTransaction()

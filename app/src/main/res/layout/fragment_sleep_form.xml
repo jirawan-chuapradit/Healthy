@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:text="Sleep Form"
+        android:textColor="#000000"
+        android:textSize="26dp"
+        android:background="@color/colorPrimaryDark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sleep_form" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+        <LinearLayout
+            android:padding="35dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+
+            <Button
+                android:text="BACK"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/back_btn"
+                />
+
+            <EditText
+                android:id="@+id/sleep_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:hint="วันที่"
+                android:ems="10" />
+
+            <EditText
+                android:id="@+id/sleep_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="เวลาที่เข้านอน"
+                android:ems="10" />
+
+
+
+            <EditText
+                android:id="@+id/wake_up_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="เวลาตื่น"
+                android:ems="10" />
+
+            <Button
+                android:id="@+id/saveBtn"
+                android:layout_marginTop="10dp"
+                android:text="SAVE"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
