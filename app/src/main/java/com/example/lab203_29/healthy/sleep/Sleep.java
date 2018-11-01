@@ -5,19 +5,6 @@ import android.provider.BaseColumns;
 
 public class Sleep {
 
-    //Database
-    public static final String DATABASE_NAME = "sleeps.db";
-    public static final int DATABASE_VERSION = 1;
-    public static final String TABLE = "sleep";
-
-    public class Column{
-        public static final String ID = BaseColumns._ID;
-        public static final String DATE = "date";
-        public static final String SLEEP_TIME = "sleep_time";
-        public static final String WAKE_UP_TIME = "wake_up_time";
-        public static final String TOTAL_TIME = "total_time";
-    }
-
     private int id;
     private String date;
     private String sleepTime;
@@ -33,17 +20,18 @@ public class Sleep {
     }
 
     //Constructor
-    public Sleep(String sleep, String wake, String date) {
-        this.sleepTime = sleep;
-        this.wakeUpTime = wake;
+    public Sleep(String sleepTime, String wakeUpTime, String date) {
+        this.sleepTime = sleepTime;
+        this.wakeUpTime = wakeUpTime;
         this.date = date;
 
-        setDiffTime(sleep, wake);
+        setDiffTime(sleepTime, wakeUpTime);
     }
+
     //ContentValues
-    public void setContent(String sleep, String wake, String date) {
-        this._row.put("sleep", sleep);
-        this._row.put("wake", wake);
+    public void setContent(String sleepTime, String wakeUpTime, String date) {
+        this._row.put("sleepTime", sleepTime);
+        this._row.put("wakeUpTime", wakeUpTime);
         this._row.put("date", date);
     }
 
