@@ -56,15 +56,14 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
 
     private void save() {
 
-        // open or create database
+        // Gets the data repository in write mode
         myDB = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
 
-        //create table if not exits
+
         myDB.execSQL(
                 "CREATE TABLE IF NOT EXISTS user (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), date VARCHAR(11))"
         );
 
-        // get parameter from fragment sleep form
         getParameter();
 
         Sleep _itemSleep = new Sleep();
@@ -85,7 +84,7 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
     }
 
     private void getParameter() {
-
+        //GET INPUT FROM FRAGMENT WEIGHTFORMFRAGEMNT
         EditText _date = getView().findViewById(R.id.sleep_form_date);
         EditText _sleepHour = getView().findViewById(R.id.sleep_form_sleep_hour);
         EditText _sleepMin = getView().findViewById(R.id.sleep_form_sleep_min);

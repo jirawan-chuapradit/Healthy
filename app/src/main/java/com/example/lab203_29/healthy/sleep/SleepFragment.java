@@ -23,7 +23,7 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
 
     private Button backBtn,addBtn;
     SQLiteDatabase myDB;
-    private ListView _sleepList;
+    ListView _sleepList;
     ArrayList<Sleep> sleeps = new ArrayList<>();
 
     @Nullable
@@ -38,7 +38,7 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
 
         backBtn = getView().findViewById(R.id.back_btn);
         addBtn = getView().findViewById(R.id.add_sleep);
-        _sleepList =  getView().findViewById(R.id.sleep_list);
+        _sleepList = (ListView) getView().findViewById(R.id.sleep_list);
 
         backBtn.setOnClickListener(this);
         addBtn.setOnClickListener(this);
@@ -49,7 +49,7 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
                 sleeps
         );
 
-        //create or open database
+        //open to use db
         myDB = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
 
         //create table if not exist
@@ -57,9 +57,34 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
                 "CREATE TABLE IF NOT EXISTS user (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), date VARCHAR(11))"
         );
 
+        //query data
+        Cursor myCursor = myDB.rawQuery("SELECT * FROM user", null);
+
+        _sleepAdapter.clear();
+
+        while(myCursor.moveToNext()){
+            String _timeSleep = myCursor.getString(1);
+            String _timeWake = myCursor.getString(2);
+            String _date = myCursor.getString(3);
+
+            Log.d("SLEEP", "_id : "+myCursor.getInt(0)+" sleep : "+_timeSleep+" wake : "+_timeWake+" date : "+_date);
+
+            sleeps.add(new Sleep(_timeSleep, _timeWake, _date));
+        }
+
+        _sleepList.setAdapter(_sleepAdapter);
+
+        _sleepList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                id = _sleepList.getItemIdAtPosition(position);
+                Log.d("SLEEP", "Position = "+id+" _id = "+(id+1));
+            }
+        });
+
+        myCursor.close();
 
         /****************************************************************************
-         *  Ex: query data                                                          *
          *   Cursor myCursor =                                                      *
          *           myDB.rawQuery("select name, age, is_single from user", null);  *
          *while(myCursor.moveToNext()) {                                            *
@@ -69,26 +94,7 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
          *}                                                                         *
          *   myCursor.close;                                                        *
          ****************************************************************************/
-        Cursor myCursor = myDB.rawQuery("SELECT * FROM user", null);
-        _sleepAdapter.clear();
-        while(myCursor.moveToNext()){
-            String _timeSleep = myCursor.getString(1);
-            String _timeWake = myCursor.getString(2);
-            String _date = myCursor.getString(3);
-            Log.d("SLEEP", "_id : "+myCursor.getInt(0)+" sleep time : "+_timeSleep
-                    +"wake up Time : "+_timeWake
-                    +" date : "+_date);
-            sleeps.add(new Sleep(_timeSleep, _timeWake, _date));
-        }
-        _sleepList.setAdapter(_sleepAdapter);
-        _sleepList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                id = _sleepList.getItemIdAtPosition(position);
-                Log.d("SLEEP", "Position = "+id+" _id = "+(id+1));
-            }
-        });
-        myCursor.close();
+
 
     }
 
