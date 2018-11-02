@@ -36,73 +36,30 @@
                 android:hint="วันที่"
                 android:layout_marginTop="10dp"/>
 
-            <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/sleep_form_sleep_time"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="เวลาเข้านอน : "/>
+                    android:hint="เวลาเข้านอน"/>
 
                 <EditText
-                    android:id="@+id/sleep_form_sleep_hour"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/sleep_form_wake_up_time"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="XX"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=":"/>
-
-                <EditText
-                    android:id="@+id/sleep_form_sleep_min"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="XX"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="เวลาตื่นนอน : "/>
-
-                <EditText
-                    android:id="@+id/sleep_form_wake_hour"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="XX"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=":"/>
-
-                <EditText
-                    android:id="@+id/sleep_form_wake_min"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="XX"/>
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/saveBtn"
-                android:layout_marginTop="10dp"
-                android:text="SAVE"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                    android:hint="เวลาตื่นนอน"/>
 
 
-
+                <Button
+                    android:id="@+id/saveBtn"
+                    android:layout_marginTop="10dp"
+                    android:text="SAVE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
         </LinearLayout>
     </ScrollView>

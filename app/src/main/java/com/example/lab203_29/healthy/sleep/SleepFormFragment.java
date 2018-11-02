@@ -86,14 +86,12 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
     private void getParameter() {
         //GET INPUT FROM FRAGMENT WEIGHTFORMFRAGEMNT
         EditText _date = getView().findViewById(R.id.sleep_form_date);
-        EditText _sleepHour = getView().findViewById(R.id.sleep_form_sleep_hour);
-        EditText _sleepMin = getView().findViewById(R.id.sleep_form_sleep_min);
-        EditText _wakeHour = getView().findViewById(R.id.sleep_form_wake_hour);
-        EditText _wakeMin = getView().findViewById(R.id.sleep_form_wake_min);
+        EditText _sleepTime = getView().findViewById(R.id.sleep_form_sleep_time);
+        EditText _wakeTime = getView().findViewById(R.id.sleep_form_wake_up_time);
 
         date = _date.getText().toString();
-        sleep_time = _sleepHour.getText().toString()+":"+_sleepMin.getText().toString();
-        wake_up_time = _wakeHour.getText().toString()+":"+_wakeMin.getText().toString();
+        sleep_time = _sleepTime.getText().toString();
+        wake_up_time = _wakeTime.getText().toString();
 
     }
 
