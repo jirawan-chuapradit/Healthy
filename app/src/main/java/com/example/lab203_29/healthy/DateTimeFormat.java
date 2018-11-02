@@ -2,7 +2,6 @@ package com.example.lab203_29.healthy;
 
 import android.util.Log;
 
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,11 +37,11 @@ public class DateTimeFormat {
             Date dateObj2 = sdf.parse(sleepTime);
             Log.d("sleep Time format : " , dateObj2.toString());
 
-            /*
-            1 minute = 60 seconds
-	        1 hour = 60 x 60 = 3600
-	        1 day = 3600 x 24 = 86400
-             */
+            /****************************
+             *1 minute = 60 seconds     *
+	         *1 hour = 60 x 60 = 3600   *
+	         *1 day = 3600 x 24 = 86400 *
+             ****************************/
             long secondsInMilli = 1000;
             long minutesInMilli = secondsInMilli * 60;
             long hoursInMilli = minutesInMilli * 60;
@@ -64,7 +63,6 @@ public class DateTimeFormat {
             }
 
             long elapsedMinutes = diff / minutesInMilli;
-            diff = diff % minutesInMilli;
 
             System.out.println("difference between minutues: " + elapsedMinutes);
 

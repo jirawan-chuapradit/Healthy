@@ -61,7 +61,7 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
 
 
         myDB.execSQL(
-                "CREATE TABLE IF NOT EXISTS user (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), date VARCHAR(11))"
+                "CREATE TABLE IF NOT EXISTS sleeps (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), date VARCHAR(11))"
         );
 
         getParameter();
@@ -71,7 +71,7 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
 
         _row = _itemSleep.getContent();
 
-        myDB.insert("user", null, _row);
+        myDB.insert("sleeps", null, _row);
 
         Log.d("SLEEP", "GOTO SLEEP");
         getActivity().getSupportFragmentManager()

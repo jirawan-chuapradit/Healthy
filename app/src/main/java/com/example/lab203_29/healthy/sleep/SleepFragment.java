@@ -54,16 +54,16 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
 
         //create table if not exist
         myDB.execSQL(
-                "CREATE TABLE IF NOT EXISTS user (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), date VARCHAR(11))"
+                "CREATE TABLE IF NOT EXISTS sleeps (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), date VARCHAR(11))"
         );
 
         //delete
-        myDB.delete("user", "_id=6", null);
-        Log.d("USER ", "DELETE ID = 6");
+//        myDB.delete("sleeps", "_id=6", null);
+//        Log.d("sleeps ", "DELETE ID = 6");
 
 
         //query data
-        Cursor myCursor = myDB.rawQuery("SELECT * FROM user", null);
+        Cursor myCursor = myDB.rawQuery("SELECT * FROM sleeps", null);
 
         _sleepAdapter.clear();
 
@@ -83,7 +83,11 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 id = _sleepList.getItemIdAtPosition(position);
-                Log.d("SLEEP", "Position = "+id+" _id = "+(id+1));
+                Log.d("SLEEP", "Position = "+position+" _id = "+(id+1));
+
+
+
+
             }
         });
 
@@ -91,7 +95,7 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
 
         /****************************************************************************
          *   Cursor myCursor =                                                      *
-         *           myDB.rawQuery("select name, age, is_single from user", null);  *
+         *           myDB.rawQuery("select name, age, is_single from sleeps", null);  *
          *while(myCursor.moveToNext()) {                                            *
          *      String name = myCursor.getString(0);                                *
          *     int age = myCursor.getInt(1);                                        *

@@ -7,19 +7,6 @@ import com.example.lab203_29.healthy.DateTimeFormat;
 
 public class Sleep {
 
-    //Database
-    public static final String DATABASE_NAME = "sleeps.db";
-    public static final int DATABASE_VERSION = 1;
-    public static final String TABLE = "sleep";
-
-    public class Column {
-        public static final String ID = BaseColumns._ID;
-        public static final String DATE = "date";
-        public static final String SLEEP_TIME = "sleep_time";
-        public static final String WAKE_UP_TIME = "wake_up_time";
-        public static final String TOTAL_TIME = "total_time";
-    }
-
     private int id;
     private String date;
     private String sleepTime;
