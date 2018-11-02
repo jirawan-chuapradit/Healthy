@@ -12,10 +12,10 @@ public class DateTimeFormat {
     private static DateTimeFormat dateTimeFormatInstance;
     private int hour;
     private int min;
-    private String format =  "hh:mm";
+    private String format = "hh:mm";
 
     SimpleDateFormat sdf = new SimpleDateFormat(format);
-    DecimalFormat decimalFormat = new DecimalFormat("###,###");
+//    DecimalFormat decimalFormat = new DecimalFormat("###,###");
 
     public static DateTimeFormat getDateTimeFormatInstance(){
         if(dateTimeFormatInstance == null){
@@ -28,38 +28,49 @@ public class DateTimeFormat {
     }
 
 
-    public void converseDateTime( String time1, String time2){
+    public void converseDateTime( String wakeUpTime, String sleepTime){
         try {
-            Date dateObj1 = sdf.parse(time1);
-            Log.d("Time FORMAT 1 :" , dateObj1.toString());
 
-            Date dateObj2 = sdf.parse(time2);
-            Log.d("Time FORMAT 2 : " , dateObj2.toString());
+            Date dateObj1 = sdf.parse(wakeUpTime);
+            Log.d("wake up Time format :" , dateObj1.toString());
+
+
+            Date dateObj2 = sdf.parse(sleepTime);
+            Log.d("sleep Time format : " , dateObj2.toString());
+
+            /*
+            1 minute = 60 seconds
+	        1 hour = 60 x 60 = 3600
+	        1 day = 3600 x 24 = 86400
+             */
+            long secondsInMilli = 1000;
+            long minutesInMilli = secondsInMilli * 60;
+            long hoursInMilli = minutesInMilli * 60;
+            long daysInMilli = hoursInMilli * 24;
+
 
             // getTime() returns the number of milliseconds since January 1, 1970, 00:00:00 GMT represented by this Date object
-            long diff = dateObj2.getTime() - dateObj1.getTime();
+            long diff =  Math.abs(dateObj2.getTime() - dateObj1.getTime());
 
-//            _hour = 12 - Math.abs(_sleepHour - _wakeHour);
-//            _min = 60 - Math.abs(_sleepMin - _wakeMin);
-//
-//            if(_wakeMin >= _sleepMin){
-//                this.diffTime = String.valueOf(_hour)+":"+String.valueOf(_min);
-//            } else {
-//                this.diffTime = String.valueOf(_hour-1)+":"+String.valueOf(_min);
-//            }
+            long elapsedDays = diff / daysInMilli;
+            diff = diff % daysInMilli;
 
-            int diffhours = (int) (diff / (60 * 60 * 1000));
-            System.out.println("difference between hours: " + decimalFormat.format(diffhours));
+            long elapsedHours = diff / hoursInMilli;
+            diff = diff % hoursInMilli;
+            System.out.println("difference between hours: " + elapsedHours);
 
-            int diffmin = (int) (diff / (60 * 1000));
-            System.out.println("difference between minutues: " + decimalFormat.format(diffmin));
-
-            if(diffmin >=60){
-             diffhours += (diffmin/60);
-             diffmin = diffmin%60;
+            if(wakeUpTime.equals("12:00")||sleepTime.equals("12:00")){
+                elapsedHours = Math.abs(elapsedHours - 12);
             }
-            this.hour = diffhours;
-            this.min = diffmin;
+
+            long elapsedMinutes = diff / minutesInMilli;
+            diff = diff % minutesInMilli;
+
+            System.out.println("difference between minutues: " + elapsedMinutes);
+
+
+            this.hour = (int) elapsedHours;
+            this.min = (int) elapsedMinutes;
 
         } catch (ParseException e) {
             e.printStackTrace();

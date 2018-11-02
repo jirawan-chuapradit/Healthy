@@ -42,6 +42,7 @@ public class MenuFragment extends Fragment {
         );
 
 
+
         ListView _menuList = (ListView) getView().findViewById(R.id.menu_list);
         _menuList.setAdapter(_menuAdoapter);
         _menuList.setOnItemClickListener(new AdapterView.OnItemClickListener() {

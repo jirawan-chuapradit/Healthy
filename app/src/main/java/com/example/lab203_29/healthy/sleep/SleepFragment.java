@@ -57,6 +57,11 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
                 "CREATE TABLE IF NOT EXISTS user (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), date VARCHAR(11))"
         );
 
+        //delete
+        myDB.delete("user", "_id=6", null);
+        Log.d("USER ", "DELETE ID = 6");
+
+
         //query data
         Cursor myCursor = myDB.rawQuery("SELECT * FROM user", null);
 
