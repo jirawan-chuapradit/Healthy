@@ -89,7 +89,6 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
         }
 
         _sleepList.setAdapter(_sleepAdapter);
-
         _sleepList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -99,7 +98,6 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
                 Log.d("SLEEP Date: ", sleep.getDate());
                 Log.d("SLEEP s_Time: ", sleep.getSleepTime());
                 Log.d("SLEEP w_Time:  ", sleep.getWakeUpTime());
-
                 Log.d("SLEEP", "GOTO SLEEP FORM");
 
                 SharedPreferences.Editor prefs = getContext().getSharedPreferences("Healthy",MODE_PRIVATE).edit();
@@ -121,7 +119,7 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
 
         /****************************************************************************
          *   Cursor myCursor =                                                      *
-         *           myDB.rawQuery("select name, age, is_single from sleeps", null);  *
+         *           myDB.rawQuery("select name, age, is_single from sleeps", null);*
          *while(myCursor.moveToNext()) {                                            *
          *      String name = myCursor.getString(0);                                *
          *     int age = myCursor.getInt(1);                                        *

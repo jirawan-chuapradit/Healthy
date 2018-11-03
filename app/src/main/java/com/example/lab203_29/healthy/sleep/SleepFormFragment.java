@@ -146,8 +146,7 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
 
         // Gets the data repository in write mode
         myDB = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
-
-
+ 
         myDB.execSQL(
                 "CREATE TABLE IF NOT EXISTS sleeps (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), date DATE)"
         );

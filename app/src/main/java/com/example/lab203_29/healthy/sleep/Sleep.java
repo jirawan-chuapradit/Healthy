@@ -34,6 +34,7 @@ public class Sleep {
     public void setContent(String sleep, String wake, String date) {
         DateTimeFormat dateTimeFormat = DateTimeFormat.getDateTimeFormatInstance();
         dateTimeFormat.setDate(date);
+
         this._row.put("sleep", sleep);
         this._row.put("wake", wake);
         this._row.put("date", dateTimeFormat.getDate());
