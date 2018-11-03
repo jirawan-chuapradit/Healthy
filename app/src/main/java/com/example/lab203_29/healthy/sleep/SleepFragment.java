@@ -1,6 +1,7 @@
 package com.example.lab203_29.healthy.sleep;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -16,8 +17,12 @@ import android.widget.ListView;
 
 import com.example.lab203_29.healthy.MenuFragment;
 import com.example.lab203_29.healthy.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class SleepFragment extends Fragment implements View.OnClickListener {
 
@@ -25,6 +30,9 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
     SQLiteDatabase myDB;
     ListView _sleepList;
     ArrayList<Sleep> sleeps = new ArrayList<>();
+    //Firebase
+    private FirebaseAuth fbAuth;
+    private String uid;
 
     @Nullable
     @Override
@@ -48,6 +56,8 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
                 R.layout.fragment_sleep_item,
                 sleeps
         );
+        fbAuth = FirebaseAuth.getInstance();
+        uid = fbAuth.getCurrentUser().getUid();
 
         //open to use db
         myDB = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
@@ -82,8 +92,25 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
         _sleepList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                id = _sleepList.getItemIdAtPosition(position);
-                Log.d("SLEEP", "Position = "+position+" _id = "+(id+1));
+                Sleep sleep = new Sleep();
+                sleep = (Sleep) parent.getItemAtPosition(position);
+                Log.d("SLEEP ", sleep.getDate());
+                Log.d("SLEEP ", sleep.getSleepTime());
+                Log.d("SLEEP ", sleep.getWakeUpTime());
+                Log.d("SLEEP", "Position = "+position+" _id = "+(id));
+                Log.d("SLEEP", "GOTO SLEEP FORM");
+
+                SharedPreferences.Editor prefs = getContext().getSharedPreferences("Healthy",MODE_PRIVATE).edit();
+                prefs.putString(uid+"_s_date", sleep.getDate());
+                prefs.putString(uid+"_s_time", sleep.getSleepTime());
+                prefs.putString(uid+"_w_time", sleep.getWakeUpTime());
+                prefs.apply();
+
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.main_view, new SleepFormFragment())
+                        .addToBackStack(null)
+                        .commit();
 
 
 

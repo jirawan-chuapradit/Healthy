@@ -2,6 +2,7 @@ package com.example.lab203_29.healthy.sleep;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -14,6 +15,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.lab203_29.healthy.R;
+import com.google.firebase.auth.FirebaseAuth;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class SleepFormFragment extends Fragment implements View.OnClickListener {
     @Nullable
@@ -25,9 +29,13 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
 
     SQLiteDatabase myDB;
     ContentValues _row;
+    //Firebase
+    private FirebaseAuth fbAuth;
+    private String uid;
 
     private Button backBtn,saveBtn;
-    private String date, sleep_time, wake_up_time;
+    private  EditText _date,_sleepTime,_wakeTime;
+    private String date, sleep_time, wake_up_time,update_date,update_sleep,update_wake;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -39,8 +47,37 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
         backBtn.setOnClickListener(this);
         saveBtn.setOnClickListener(this);
 
+        fbAuth = FirebaseAuth.getInstance();
+        //GET VALUDE FROM FIREBASE
+        uid = fbAuth.getCurrentUser().getUid();
+
+        //get Notify count
+        SharedPreferences prefs = getContext().getSharedPreferences("Healthy",Context.MODE_PRIVATE);
+        update_date = prefs.getString(uid+"_s_date", "none");
+        update_sleep = prefs.getString(uid+"_s_time", "none");
+        update_wake = prefs.getString(uid+"_w_time","none");
+
+        if(!update_date.equals("none")||!update_sleep.equals("none")||!update_wake.equals("none")){
+           getParameter();
+           setParameter(update_date,update_sleep,update_wake);
+        }
+
 
     }
+
+    private void setParameter(String update_date, String update_sleep, String update_wake) {
+        _date.setText(update_date);
+        _sleepTime.setText(update_sleep);
+        _wakeTime.setText(update_wake);
+
+        //setNone
+        SharedPreferences.Editor prefs = getContext().getSharedPreferences("Healthy",MODE_PRIVATE).edit();
+        prefs.putString(uid+"_s_date", "none");
+        prefs.putString(uid+"_s_time","none");
+        prefs.putString(uid+"_w_time", "none");
+        prefs.apply();
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -65,6 +102,7 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
         );
 
         getParameter();
+        converseToString();
 
         Sleep _itemSleep = new Sleep();
         _itemSleep.setContent(sleep_time, wake_up_time, date);
@@ -81,17 +119,27 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
                 .commit();
 
 
+        if(!update_date.equals("none")||!update_sleep.equals("none")||!update_wake.equals("none")){
+            saveUpdateParameter();
+        }
     }
 
-    private void getParameter() {
-        //GET INPUT FROM FRAGMENT WEIGHTFORMFRAGEMNT
-        EditText _date = getView().findViewById(R.id.sleep_form_date);
-        EditText _sleepTime = getView().findViewById(R.id.sleep_form_sleep_time);
-        EditText _wakeTime = getView().findViewById(R.id.sleep_form_wake_up_time);
+    private void saveUpdateParameter() {
 
+    }
+
+    private void converseToString() {
         date = _date.getText().toString();
         sleep_time = _sleepTime.getText().toString();
         wake_up_time = _wakeTime.getText().toString();
+    }
+
+
+    private void getParameter() {
+        //GET INPUT FROM FRAGMENT WEIGHTFORMFRAGEMNT
+         _date = getView().findViewById(R.id.sleep_form_date);
+         _sleepTime = getView().findViewById(R.id.sleep_form_sleep_time);
+         _wakeTime = getView().findViewById(R.id.sleep_form_wake_up_time);
 
     }
 
