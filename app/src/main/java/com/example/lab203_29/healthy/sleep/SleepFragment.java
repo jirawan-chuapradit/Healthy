@@ -64,7 +64,7 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
 
         //create table if not exist
         myDB.execSQL(
-                "CREATE TABLE IF NOT EXISTS sleeps (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), date VARCHAR(11))"
+                "CREATE TABLE IF NOT EXISTS sleeps (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), date DATE)"
         );
 
         //delete
@@ -73,18 +73,19 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
 
 
         //query data
-        Cursor myCursor = myDB.rawQuery("SELECT * FROM sleeps", null);
+        Cursor myCursor = myDB.rawQuery("SELECT * FROM sleeps ORDER BY date DESC", null);
 
         _sleepAdapter.clear();
 
         while(myCursor.moveToNext()){
+            int _id = myCursor.getInt(0);
             String _timeSleep = myCursor.getString(1);
             String _timeWake = myCursor.getString(2);
             String _date = myCursor.getString(3);
 
             Log.d("SLEEP", "_id : "+myCursor.getInt(0)+" sleep : "+_timeSleep+" wake : "+_timeWake+" date : "+_date);
 
-            sleeps.add(new Sleep(_timeSleep, _timeWake, _date));
+            sleeps.add(new Sleep(_id,_timeSleep, _timeWake, _date));
         }
 
         _sleepList.setAdapter(_sleepAdapter);
@@ -94,16 +95,18 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Sleep sleep = new Sleep();
                 sleep = (Sleep) parent.getItemAtPosition(position);
-                Log.d("SLEEP ", sleep.getDate());
-                Log.d("SLEEP ", sleep.getSleepTime());
-                Log.d("SLEEP ", sleep.getWakeUpTime());
-                Log.d("SLEEP", "Position = "+position+" _id = "+(id));
+                Log.d("SLEEP ID: ", String.valueOf(sleep.getId()));
+                Log.d("SLEEP Date: ", sleep.getDate());
+                Log.d("SLEEP s_Time: ", sleep.getSleepTime());
+                Log.d("SLEEP w_Time:  ", sleep.getWakeUpTime());
+
                 Log.d("SLEEP", "GOTO SLEEP FORM");
 
                 SharedPreferences.Editor prefs = getContext().getSharedPreferences("Healthy",MODE_PRIVATE).edit();
                 prefs.putString(uid+"_s_date", sleep.getDate());
                 prefs.putString(uid+"_s_time", sleep.getSleepTime());
                 prefs.putString(uid+"_w_time", sleep.getWakeUpTime());
+                prefs.putInt(uid+"_id",sleep.getId());
                 prefs.apply();
 
                 getActivity().getSupportFragmentManager()
@@ -111,10 +114,6 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
                         .replace(R.id.main_view, new SleepFormFragment())
                         .addToBackStack(null)
                         .commit();
-
-
-
-
             }
         });
 

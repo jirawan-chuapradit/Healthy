@@ -1,5 +1,8 @@
 package com.example.lab203_29.healthy;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,19 +20,46 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * Created by LAB203_37 on 27/8/2561.
  */
 
 public class MenuFragment extends Fragment {
 
-
+    SQLiteDatabase myDB;
     ArrayList<String> _menu = new ArrayList<>();
 
+
+    //Firebase
+    private FirebaseAuth fbAuth;
+    private String uid;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+
+        fbAuth = FirebaseAuth.getInstance();
+        //GET VALUDE FROM FIREBASE
+        uid = fbAuth.getCurrentUser().getUid();
+
+        //setNone
+        SharedPreferences.Editor prefs = getContext().getSharedPreferences("Healthy",MODE_PRIVATE).edit();
+        prefs.putString(uid+"_s_date", "none");
+        prefs.putString(uid+"_s_time","none");
+        prefs.putString(uid+"_w_time", "none");
+        prefs.putInt(uid+"_id", -1);
+        prefs.apply();
+
+        // Gets the data repository in write mode
+//        myDB = getActivity().openOrCreateDatabase("my.db",Context.MODE_PRIVATE, null);
+//
+//
+//        myDB.execSQL(
+//                "DROP TABLE IF  EXISTS sleeps");
+
         _menu.add("BMI");
         _menu.add("Weight");
         _menu.add("Sleep");

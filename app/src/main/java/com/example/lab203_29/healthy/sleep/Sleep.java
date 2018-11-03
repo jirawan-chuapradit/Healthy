@@ -1,7 +1,7 @@
 package com.example.lab203_29.healthy.sleep;
 
 import android.content.ContentValues;
-import android.provider.BaseColumns;
+import android.util.Log;
 
 import com.example.lab203_29.healthy.DateTimeFormat;
 
@@ -21,7 +21,8 @@ public class Sleep {
     }
 
     //Constructor
-    public Sleep(String sleep, String wake, String date) {
+    public Sleep(int id,String sleep, String wake, String date) {
+        this.id = id;
         this.sleepTime = sleep;
         this.wakeUpTime = wake;
         this.date = date;
@@ -31,9 +32,11 @@ public class Sleep {
 
     //ContentValues
     public void setContent(String sleep, String wake, String date) {
+        DateTimeFormat dateTimeFormat = DateTimeFormat.getDateTimeFormatInstance();
+        dateTimeFormat.setDate(date);
         this._row.put("sleep", sleep);
         this._row.put("wake", wake);
-        this._row.put("date", date);
+        this._row.put("date", dateTimeFormat.getDate());
     }
 
     public ContentValues getContent() {
@@ -83,11 +86,31 @@ public class Sleep {
         int _hour;
         int _min;
 
-        DateTimeFormat dateTimeFormat = DateTimeFormat.getDateTimeFormatInstance();
-        dateTimeFormat.converseDateTime(wakeUpTime, sleepTime);
-        _hour = dateTimeFormat.getHour();
-        _min = dateTimeFormat.getMin();
-        this.diffTime = String.valueOf(_hour) + ":" + String.valueOf(_min);
+        /****************************
+         *1 minute = 60 seconds     *
+         *1 hour = 60 x 60 = 3600   *
+         *1 day = 3600 x 24 = 86400 *
+         ****************************/
+        String[] _sleepArray = sleepTime.split(":");
+        String[] _wakeArray = wakeUpTime.split(":");
+        Log.d("Sleep Hour: Min" , _sleepArray[0] +" : "+ _sleepArray[1] );
+        Log.d("wake Hour: Min" , _wakeArray[0] +" : "+ _wakeArray[1] );
+
+        int intSleep = (Integer.parseInt(_sleepArray[0]))*3600 + (Integer.parseInt(_sleepArray[1])*60);
+        int intWake = (Integer.parseInt(_wakeArray[0])*3600) + (Integer.parseInt(_wakeArray[1])*60);
+
+        String hour,min;
+        if(intSleep > intWake){
+            Log.d("Sleep","more than wake");
+            hour = String.valueOf(Math.round(86400 - (intSleep - intWake)) / 3600);
+            min = String.valueOf(Math.round((86400 - (intSleep - intWake)) % 3600) / 60);
+        }else {
+            Log.d("Sleep","less than wake");
+            hour = String.valueOf(Math.round((intWake - intSleep)) / 3600);
+            min = String.valueOf(Math.round(((intWake - intSleep)) % 3600) / 60);
+        }
+
+        this.diffTime = hour + ":" + min;
     }
 
 }

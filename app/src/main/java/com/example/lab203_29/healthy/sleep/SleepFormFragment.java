@@ -3,6 +3,7 @@ package com.example.lab203_29.healthy.sleep;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,9 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.lab203_29.healthy.R;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.sql.Date;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -36,6 +40,7 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
     private Button backBtn,saveBtn;
     private  EditText _date,_sleepTime,_wakeTime;
     private String date, sleep_time, wake_up_time,update_date,update_sleep,update_wake;
+    private int currentId;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -51,15 +56,21 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
         //GET VALUDE FROM FIREBASE
         uid = fbAuth.getCurrentUser().getUid();
 
-        //get Notify count
+
         SharedPreferences prefs = getContext().getSharedPreferences("Healthy",Context.MODE_PRIVATE);
         update_date = prefs.getString(uid+"_s_date", "none");
         update_sleep = prefs.getString(uid+"_s_time", "none");
         update_wake = prefs.getString(uid+"_w_time","none");
+        currentId = prefs.getInt(uid+"_id",-1);
+        Log.d("UPDATE DATE: ",update_date);
+        Log.d("UPDATE SLEEP: ", update_sleep);
+        Log.d("UPDATE WAKE: ", update_wake);
+        Log.d("CURRENT ID: ", String.valueOf(currentId));
 
-        if(!update_date.equals("none")||!update_sleep.equals("none")||!update_wake.equals("none")){
+        if(currentId != -1){
            getParameter();
            setParameter(update_date,update_sleep,update_wake);
+           Log.d("UPDATE MEDTHOD","WORKING...");
         }
 
 
@@ -69,13 +80,6 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
         _date.setText(update_date);
         _sleepTime.setText(update_sleep);
         _wakeTime.setText(update_wake);
-
-        //setNone
-        SharedPreferences.Editor prefs = getContext().getSharedPreferences("Healthy",MODE_PRIVATE).edit();
-        prefs.putString(uid+"_s_date", "none");
-        prefs.putString(uid+"_s_time","none");
-        prefs.putString(uid+"_w_time", "none");
-        prefs.apply();
     }
 
 
@@ -87,8 +91,55 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
         }
         else if(v==saveBtn){
             Log.d("SLEEP FORM", "CLICK SAVE");
-            save();
+
+            if(currentId != -1){
+                updateParameter();
+            }else if(currentId == -1){
+                save();
+            }
+
         }
+    }
+
+    private void updateParameter() {
+
+        // Gets the data repository in write mode
+        myDB = getActivity().openOrCreateDatabase("my.db", Context.MODE_PRIVATE, null);
+
+
+        myDB.execSQL(
+                "CREATE TABLE IF NOT EXISTS sleeps (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), date DATE)"
+        );
+
+        getParameter();
+        converseToString();
+
+        Sleep _itemSleep = new Sleep();
+        _itemSleep.setContent(sleep_time, wake_up_time, date);
+        _row = _itemSleep.getContent();
+
+        myDB.update("sleeps",_row,"_id="+currentId,null);
+       Log.d("UPDATE VALUE", "ID:" + currentId);
+        //setNone
+        SharedPreferences.Editor prefs = getContext().getSharedPreferences("Healthy",MODE_PRIVATE).edit();
+        prefs.putString(uid+"_s_date", "none");
+        prefs.putString(uid+"_s_time","none");
+        prefs.putString(uid+"_w_time", "none");
+        prefs.putInt(uid+"_id", -1);
+        prefs.apply();
+
+        Toast.makeText(
+                getActivity(),
+                "sleep form has been saved!",
+                Toast.LENGTH_SHORT
+        ).show();
+
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_view, new SleepFragment())
+                .addToBackStack(null)
+                .commit();
+        Log.d("SLEEP", "GOTO SLEEP");
     }
 
     private void save() {
@@ -98,7 +149,7 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
 
 
         myDB.execSQL(
-                "CREATE TABLE IF NOT EXISTS sleeps (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), date VARCHAR(11))"
+                "CREATE TABLE IF NOT EXISTS sleeps (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), date DATE)"
         );
 
         getParameter();
@@ -111,21 +162,17 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
 
         myDB.insert("sleeps", null, _row);
 
-        Log.d("SLEEP", "GOTO SLEEP");
+        Toast.makeText(
+                getActivity(),
+                "sleep form has been saved!",
+                Toast.LENGTH_SHORT
+        ).show();
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_view, new SleepFragment())
                 .addToBackStack(null)
                 .commit();
-
-
-        if(!update_date.equals("none")||!update_sleep.equals("none")||!update_wake.equals("none")){
-            saveUpdateParameter();
-        }
-    }
-
-    private void saveUpdateParameter() {
-
+        Log.d("SLEEP", "GOTO SLEEP");
     }
 
     private void converseToString() {
