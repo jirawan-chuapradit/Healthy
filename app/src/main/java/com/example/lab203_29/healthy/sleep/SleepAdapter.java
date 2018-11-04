@@ -12,10 +12,13 @@ import com.example.lab203_29.healthy.R;
 
 import java.util.ArrayList;
 import java.util.List;
+/********************************************************
+ *   intent:set parameter for each sleep item           *
+ *   pre-condition: query value from sql lite           *
+ *   post-condition: show parameter for each sleep item *
+ ********************************************************/
 
 public class SleepAdapter extends ArrayAdapter<Sleep> {
-
-
 
     List<Sleep> sleeps = new ArrayList<Sleep>();
     Context context;
@@ -43,7 +46,5 @@ public class SleepAdapter extends ArrayAdapter<Sleep> {
 
         return _sleepItem;
     }
-
-
 
 }

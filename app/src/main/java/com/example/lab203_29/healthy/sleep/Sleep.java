@@ -3,8 +3,6 @@ package com.example.lab203_29.healthy.sleep;
 import android.content.ContentValues;
 import android.util.Log;
 
-import com.example.lab203_29.healthy.DateTimeFormat;
-
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,18 +30,22 @@ public class Sleep {
         this.wakeUpTime = wake;
         this.date = date;
 
+        //calculate different time between sleep and wake
         setDiffTime(sleep, wake);
     }
 
-    //ContentValues
+
+    /*****************************************************
+     *   intent: แปลงวันที่จาก type String to date Obj.         *
+     *   pre-condition: ส่งค่า sleep wake date type String   *
+     *   post-condition: set parameter to  ContentValues *
+     ****************************************************/
     public void setContent(String sleep, String wake, String date) {
-//
         String format = "dd-MM-yyyy hh:mm";
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         try {
             Date dateObj =  sdf.parse(date+" "+sleep);
             Log.d("dateObj Time format : " , dateObj.toString());
-
             this._row.put("sleep", sleep);
             this._row.put("wake", wake);
             this._row.put("process_date",dateObj.getTime());
@@ -52,14 +54,18 @@ public class Sleep {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-//        this._row.put("d1", julianday(date));
     }
 
+
+    /*****************************************************
+     *   intent:set content values to parameter _row     *
+     *   pre-condition: ต้อง set content values            *
+     *   post-condition: save _row to SQL                *
+     *   return: content values                          *
+     ****************************************************/
     public ContentValues getContent() {
         return _row;
     }
-
 
     //getter, setter
     public int getId() {
@@ -99,15 +105,14 @@ public class Sleep {
         return diffTime;
     }
 
+    /****************************
+     *1 minute = 60 seconds     *
+     *1 hour = 60 x 60 = 3600   *
+     *1 day = 3600 x 24 = 86400 *
+     ****************************/
     public void setDiffTime(String sleepTime, String wakeUpTime) {
         int _hour;
         int _min;
-
-        /****************************
-         *1 minute = 60 seconds     *
-         *1 hour = 60 x 60 = 3600   *
-         *1 day = 3600 x 24 = 86400 *
-         ****************************/
         String[] _sleepArray = sleepTime.split(":");
         String[] _wakeArray = wakeUpTime.split(":");
         Log.d("Sleep Hour: Min" , _sleepArray[0] +" : "+ _sleepArray[1] );

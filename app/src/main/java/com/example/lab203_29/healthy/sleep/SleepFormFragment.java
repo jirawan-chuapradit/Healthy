@@ -56,7 +56,11 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
         //GET VALUDE FROM FIREBASE
         uid = fbAuth.getCurrentUser().getUid();
 
-
+        /********************************************************
+         *   intent:ตรวจสอบว่า มีการส่งตัวแปลว่าอัพเดตหรือไม่                        *
+         *   pre-condition: คลิก add sleep                        *
+         *   post-condition: save values to sql lite            *
+         ********************************************************/
         SharedPreferences prefs = getContext().getSharedPreferences("Healthy",Context.MODE_PRIVATE);
         update_date = prefs.getString(uid+"_s_date", "none");
         update_sleep = prefs.getString(uid+"_s_time", "none");
@@ -67,6 +71,7 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
         Log.d("UPDATE WAKE: ", update_wake);
         Log.d("CURRENT ID: ", String.valueOf(currentId));
 
+        //if update
         if(currentId != -1){
            getParameter();
            setParameter(update_date,update_sleep,update_wake);
