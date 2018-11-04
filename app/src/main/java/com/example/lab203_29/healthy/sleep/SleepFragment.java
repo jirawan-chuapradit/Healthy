@@ -33,7 +33,7 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
     ArrayList<Sleep> sleeps = new ArrayList<>();
     //Firebase
     private FirebaseAuth fbAuth;
-    private String uid;
+    private String uid,mDayStr,mMonthStr;
 
     @Nullable
     @Override
@@ -92,9 +92,10 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(timeStamp);
             int mYear = calendar.get(Calendar.YEAR);
-            int mMonth = calendar.get(Calendar.MONTH)+1; //calendars is JANUARY which is 0;
+            int mMonth = calendar.get(Calendar.MONTH); //calendars is JANUARY which is 0;
             int mDay = calendar.get(Calendar.DAY_OF_MONTH);
-            String realDate = mDay +"-" + mMonth +"-"+ mYear;
+            setdisplay(mDay,mMonth);
+            String realDate = mDayStr +"-" + mMonthStr +"-"+ mYear;
 
             //add parameter to Obj Sleep
             sleeps.add(new Sleep(_id,_timeSleep, _timeWake, realDate));
@@ -143,6 +144,54 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
 
 
     }
+
+    private void setdisplay(int mDay, int mMonth) {
+        if(mDay%10 == mDay){
+            mDayStr = "0"+mDay;
+
+        }else {
+            mDayStr = String.valueOf(mDay);
+        }
+
+        if(mMonth == 0){
+            mMonthStr = "Jan";
+        }
+        else if(mMonth == 1){
+            mMonthStr = "Feb";
+        }
+        else if(mMonth == 2){
+            mMonthStr = "Mar";
+        }
+        else if(mMonth == 3){
+            mMonthStr = "Api";
+        }
+        else if(mMonth == 4){
+            mMonthStr = "May";
+        }
+        else if(mMonth == 5){
+            mMonthStr = "Jun";
+        }
+        else if(mMonth == 6){
+            mMonthStr = "Jul";
+        }
+        else if(mMonth == 7){
+            mMonthStr = "Aug";
+        }
+        else if(mMonth == 8){
+            mMonthStr = "Sep";
+        }
+        else if(mMonth == 9){
+            mMonthStr = "Oct";
+        }
+        else if(mMonth == 10){
+            mMonthStr = "Nov";
+        }
+        else if(mMonth == 11){
+            mMonthStr = "Dec";
+        }
+
+    }
+
 
     @Override
     public void onClick(View v) {

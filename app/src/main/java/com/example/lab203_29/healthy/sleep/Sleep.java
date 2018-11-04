@@ -41,7 +41,7 @@ public class Sleep {
      *   post-condition: set parameter to  ContentValues *
      ****************************************************/
     public void setContent(String sleep, String wake, String date) {
-        String format = "dd-MM-yyyy hh:mm";
+        String format = "dd-MMM-yyyy hh:mm";
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         try {
             Date dateObj =  sdf.parse(date+" "+sleep);
