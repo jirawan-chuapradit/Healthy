@@ -21,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -64,7 +65,7 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
 
         //create table if not exist
         myDB.execSQL(
-                "CREATE TABLE IF NOT EXISTS sleeps (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), date DATE)"
+                "CREATE TABLE IF NOT EXISTS sleeps (_id INTEGER PRIMARY KEY AUTOINCREMENT, sleep VARCHAR(5), wake VARCHAR(5), process_date INTEGER)"
         );
 
         //delete
@@ -73,7 +74,7 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
 
 
         //query data
-        Cursor myCursor = myDB.rawQuery("SELECT * FROM sleeps ORDER BY date DESC", null);
+        Cursor myCursor = myDB.rawQuery("SELECT _id, sleep, wake, process_date FROM sleeps ORDER BY process_date DESC", null);
 
         _sleepAdapter.clear();
 
@@ -85,7 +86,14 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
 
             Log.d("SLEEP", "_id : "+myCursor.getInt(0)+" sleep : "+_timeSleep+" wake : "+_timeWake+" date : "+_date);
 
-            sleeps.add(new Sleep(_id,_timeSleep, _timeWake, _date));
+            long timeStamp = Long.parseLong(_date);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(timeStamp);
+            int mYear = calendar.get(Calendar.YEAR);
+            int mMonth = calendar.get(Calendar.MONTH);
+            int mDay = calendar.get(Calendar.DAY_OF_MONTH);
+            String realDate = mDay +"-" + mMonth +"-"+ mYear;
+            sleeps.add(new Sleep(_id,_timeSleep, _timeWake, realDate));
         }
 
         _sleepList.setAdapter(_sleepAdapter);
@@ -95,7 +103,7 @@ public class SleepFragment extends Fragment implements View.OnClickListener {
                 Sleep sleep = new Sleep();
                 sleep = (Sleep) parent.getItemAtPosition(position);
                 Log.d("SLEEP ID: ", String.valueOf(sleep.getId()));
-                Log.d("SLEEP Date: ", sleep.getDate());
+                Log.d("SLEEP Date: ", String.valueOf(sleep.getDate()));
                 Log.d("SLEEP s_Time: ", sleep.getSleepTime());
                 Log.d("SLEEP w_Time:  ", sleep.getWakeUpTime());
                 Log.d("SLEEP", "GOTO SLEEP FORM");

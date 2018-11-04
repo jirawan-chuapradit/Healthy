@@ -53,7 +53,7 @@ public class MenuFragment extends Fragment {
         prefs.putInt(uid+"_id", -1);
         prefs.apply();
 
-        // Gets the data repository in write mode
+////        // Gets the data repository in write mode
 //        myDB = getActivity().openOrCreateDatabase("my.db",Context.MODE_PRIVATE, null);
 //
 //

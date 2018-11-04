@@ -5,6 +5,11 @@ import android.util.Log;
 
 import com.example.lab203_29.healthy.DateTimeFormat;
 
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Sleep {
 
     private int id;
@@ -32,12 +37,23 @@ public class Sleep {
 
     //ContentValues
     public void setContent(String sleep, String wake, String date) {
-        DateTimeFormat dateTimeFormat = DateTimeFormat.getDateTimeFormatInstance();
-        dateTimeFormat.setDate(date);
+//
+        String format = "dd-MM-yyyy hh:mm";
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        try {
+            Date dateObj =  sdf.parse(date+" "+sleep);
+            Log.d("dateObj Time format : " , dateObj.toString());
 
-        this._row.put("sleep", sleep);
-        this._row.put("wake", wake);
-        this._row.put("date", dateTimeFormat.getDate());
+            this._row.put("sleep", sleep);
+            this._row.put("wake", wake);
+            this._row.put("process_date",dateObj.getTime());
+            Log.d("dateObj.getTime(): " , String.valueOf(dateObj.getTime()));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+//        this._row.put("d1", julianday(date));
     }
 
     public ContentValues getContent() {
