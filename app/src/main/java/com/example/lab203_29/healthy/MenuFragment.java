@@ -1,6 +1,5 @@
 package com.example.lab203_29.healthy;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.lab203_29.healthy.restApi.PostFragment;
 import com.example.lab203_29.healthy.sleep.SleepFragment;
 import com.example.lab203_29.healthy.weight.WeightFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,6 +64,7 @@ public class MenuFragment extends Fragment {
         _menu.add("Weight");
         _menu.add("Sleep");
         _menu.add("Setup");
+        _menu.add("Post");
         _menu.add("Sign Out");
 
         ArrayAdapter<String> _menuAdoapter = new ArrayAdapter<>(
@@ -98,6 +99,13 @@ public class MenuFragment extends Fragment {
                     getActivity().getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.main_view, new SleepFragment())
+                            .addToBackStack(null)
+                            .commit();
+                }
+                else if(_menu.get(i).contains("Post")){
+                    getActivity().getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.main_view, new PostFragment())
                             .addToBackStack(null)
                             .commit();
                 }

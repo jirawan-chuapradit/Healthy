@@ -5,7 +5,7 @@ android {
     buildToolsVersion '28.0.2'
     defaultConfig {
         applicationId "com.example.lab203_29.healthy"
-        minSdkVersion 15
+        minSdkVersion 22
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 1
@@ -33,6 +33,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.3'
     implementation 'com.google.firebase:firebase-auth:16.0.3'
     implementation 'com.google.firebase:firebase-firestore:17.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.11.0'
 
 
 
