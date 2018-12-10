@@ -127,11 +127,12 @@ public class SleepFormFragment extends Fragment implements View.OnClickListener 
        Log.d("UPDATE VALUE", "ID:" + currentId);
         //setNone
         SharedPreferences.Editor prefs = getContext().getSharedPreferences("Healthy",MODE_PRIVATE).edit();
-        prefs.putString(uid+"_s_date", "none");
-        prefs.putString(uid+"_s_time","none");
-        prefs.putString(uid+"_w_time", "none");
-        prefs.putInt(uid+"_id", -1);
-        prefs.apply();
+//        prefs.putString(uid+"_s_date", "none");
+//        prefs.putString(uid+"_s_time","none");
+//        prefs.putString(uid+"_w_time", "none");
+//        prefs.putInt(uid+"_id", -1);
+//        prefs.apply();
+        prefs.clear();
 
         Toast.makeText(
                 getActivity(),
